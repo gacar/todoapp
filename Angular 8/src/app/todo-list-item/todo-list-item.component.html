@@ -1,0 +1,86 @@
+<div class="panel panel-primary">
+        <div class="panel-heading">
+            
+            
+          <h2 class='text-center'>Görevler</h2>
+          <div class="mt-1" ><a href="/user/todocategories" class=" link">  <h5> < Görev Kategorileri</h5></a></div>
+        </div>
+        <div class="panel-body">
+                    
+            <div class="card">
+                <div class="card-body">
+                  <form class="form-group">         
+                        <label for="itemname">Yeni Görev Ekleyin :</label>    
+                    <div class="form-group">                    
+                      <input type="text" class="form-control" id="itemname" [(ngModel)]="newItem.name" placeholder="Görev Adı"
+                        name="itemname">              
+                    </div>  
+                    <div class="form-group">                    
+                    <input type="text" class="form-control" id="itemname" [(ngModel)]="newItem.description" placeholder="Açıklama"
+                        name="itemname">              
+                     </div>  
+                     <div class="form-group">                    
+                    <input type="date" class="form-control" id="itemname" [(ngModel)]="newItem.deadline" placeholder="Son Tarih"
+                         name="itemname">              
+                    </div>  
+
+
+                    <div class="form-group">
+                            <button (click)=handleInsertItem() class="btn btn-info">Ekle</button>      
+                    </div>  
+                  </form>
+                </div>
+              </div>           
+         
+        <div class="card-body">
+
+                  <form>
+                        <div class="row">
+                          <div class="col">
+                            <input type="text" class="form-control" name="nameFilter" [(ngModel)]="nameFilter" placeholder="isim filtrele">
+                          </div>
+                          <div class="col">
+                                <select id="inputState" name="order" [(ngModel)]="order" class="form-control">
+                                        <option selected value="0">oluşturulma tarihi sıralı</option>
+                                        <option value="1">son tarih sıralı</option>
+                                        <option value="2">isime göre sıralı</option>
+                                        <option value="3">durum sıralı</option>
+                                </select>
+                          </div>
+                          <div class="col">
+                                <button type="submit"  (click)=handleFilter() class="btn btn-primary">Filtrele</button>
+                              </div>
+                        </div>
+                      </form>
+                    </div>
+
+            <table class="mt-3 table table-striped">
+            <thead>
+              <tr>
+                
+                <th>Görev Adı</th>
+                <th>Açıklama</th>
+                <th>Son Tarihi</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let todoItem of todoItems | async">
+                
+                <td>{{todoItem.name}}</td>     
+                <td>{{todoItem.description}}</td>
+                <td>{{todoItem.deadline | date: 'dd/MM/yyyy'}}</td>
+                <td *ngIf='todoItem.status'>tamamlandı
+                </td>
+                <td *ngIf='!todoItem.status'>devam ediyor
+                    </td>
+                <td><button (click)="handleDeleteItem(todoItem.id)" class="btn btn-danger">Sil</button>
+                    <button (click)="handleIncompleteItem(todoItem.id,todoItem.name)" *ngIf='todoItem.status' class="btn btn-warning" style="margin-left: 10px">Tekrar Aç</button>
+                    <button (click)="handleCompleteItem(todoItem.id,todoItem.name)" *ngIf='!todoItem.status' class="btn btn-info" style="margin-left: 10px">Tamamla</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
